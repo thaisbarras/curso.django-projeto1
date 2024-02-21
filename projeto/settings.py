@@ -121,6 +121,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# lista de pastas onde podemos encontrar arquivos estáticos
+STATICFILES_DIRS = [
+    BASE_DIR / 'base_static',
+]
+
+#Caminho da pasta onde eu quero que ele salve todos os arquivos estáticos da minha aplicação
+STATIC_ROOT = BASE_DIR / 'static'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
