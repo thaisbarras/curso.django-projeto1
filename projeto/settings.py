@@ -129,6 +129,9 @@ STATICFILES_DIRS = [
 #Caminho da pasta onde eu quero que ele salve todos os arquivos estáticos da minha aplicação
 STATIC_ROOT = BASE_DIR / 'static'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
