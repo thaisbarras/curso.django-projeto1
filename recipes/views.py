@@ -1,8 +1,10 @@
 from django.http import Http404, HttpResponse
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 
 from utils.recipes.factory import make_recipe
+
 from .models import Recipe
+
 
 def home(request):
     recipes = Recipe.objects.filter(is_published=True).order_by('-id')
@@ -46,3 +48,7 @@ def recipe(request, id):
         'recipe': recipe,
         'is_detail_page': True,
     })
+    
+
+def search(request):
+    return render(request, 'recipes/pages/search.html')
