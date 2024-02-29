@@ -1,8 +1,11 @@
 #from django.forms import Form, ModelForm
+import re
+
 from typing import Any
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
 
 def add_attr(field, attr_name, attr_new_val):
     existing = field.widget.attrs.get(attr_name, '')
@@ -11,6 +14,17 @@ def add_attr(field, attr_name, attr_new_val):
 
 def add_placeholder(field, placeholder_val):
     add_attr(field, 'placeholder', placeholder_val)
+
+def strong_password(password):
+    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
+
+    if not regex.match(password):
+        raise ValidationError((
+            'A senha deve conter pelo menos uma letra maiúscula,'
+            'uma letra minúscula e um número. O tamanho deve ser maior que 8 caracteres'
+            ),
+            code='invalid'
+        )
 
 
 class RegisterForm(forms.ModelForm):
@@ -39,7 +53,8 @@ class RegisterForm(forms.ModelForm):
         help_text=(
             'A senha deve conter pelo menos uma letra maiúscula,'
             'uma letra minúscula e um número. O tamanho deve ser maior que 8 caracteres'
-        )
+        ),
+        validators=[strong_password]
     )
 
     # Criando um novo campo
