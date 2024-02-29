@@ -94,6 +94,16 @@ class RegisterForm(forms.ModelForm):
             'password',
         ]
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        existe_user = User.objects.filter(email=email).exists()
+
+        if existe_user:
+            raise ValidationError("Email já foi cadastrado")
+        
+        return email
+
+
     def clean(self):
         cleaned_data = super().clean()
 
