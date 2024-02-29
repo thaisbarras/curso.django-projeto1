@@ -23,12 +23,23 @@ def register_create(request):
     form = RegisterForm(request.POST)
 
     if form.is_valid():
-        form.save()
+        #pegando a instância do model e não salvo no bd
+        user = form.save(commit=False)
+
+        #salvar password criptografado na base de dados
+        user.set_password(user.password)
+
+        # Agora sim salvo na base de dados
+        user.save()
+
+
         messages.success(request, 'Seu usuário foi criado com sucesso, por favor, faça seu login')
         #limpar sessão
         #del() detela a chave de um dicionário
         del(request.session['register_form_data'])
 
+        
+        
         #FInge que salvou os dados, mas só pega os dados
         #isso é comum quando, depois que tudo foi validado, se quer enviar mais algum valor para o formulário
         #form = form.save(commit)
