@@ -1,4 +1,5 @@
 #from django.forms import Form, ModelForm
+from typing import Any
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -117,3 +118,16 @@ class RegisterForm(forms.ModelForm):
             )
 
         return data
+    
+    # Validando o formulário como um todo
+    def clean(self):
+        cleaned_data =  super().clean()
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+
+        if password != password2:
+                raise ValidationError({
+                'password2': 'Password e Password 2 devem ser iguais'
+            })
+
+        return cleaned_data
