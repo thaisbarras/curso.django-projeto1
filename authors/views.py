@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import redirect, render
+from django.contrib import messages
 
 from .forms import RegisterForm
 
@@ -20,5 +21,19 @@ def register_create(request):
     request.session['register_form_data'] = POST
     
     form = RegisterForm(request.POST)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Seu usuário foi criado com sucesso, por favor, faça seu login')
+        #limpar sessão
+        #del() detela a chave de um dicionário
+        del(request.session['register_form_data'])
+
+        #FInge que salvou os dados, mas só pega os dados
+        #isso é comum quando, depois que tudo foi validado, se quer enviar mais algum valor para o formulário
+        #form = form.save(commit)
+        #data.outro_campo = 'outro_valor'
+
+
 
     return redirect('authors:register') #GET
